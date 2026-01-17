@@ -1,0 +1,98 @@
+--[[
+    🐍 BLACKMAMBAHUB: BOXING BETA [PRO V2.2]
+    OWNER/DEV: PRIMEBLACKMAMBA
+]]
+
+local Players = game:GetService("Players")
+local LP = Players.LocalPlayer
+local RS = game:GetService("RunService")
+
+-- 1. UI SETUP
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "BlackMamba_Pro"
+ScreenGui.Parent = LP:WaitForChild("PlayerGui")
+ScreenGui.ResetOnSpawn = false
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Parent = ScreenGui
+MainFrame.Size = UDim2.new(0, 230, 0, 380)
+MainFrame.Position = UDim2.new(0.5, -115, 0.5, -180)
+MainFrame.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
+MainFrame.Visible = false
+Instance.new("UICorner", MainFrame)
+
+local Container = Instance.new("ScrollingFrame")
+Container.Parent = MainFrame
+Container.Size = UDim2.new(1, 0, 1, -50)
+Container.Position = UDim2.new(0, 0, 0, 50)
+Container.BackgroundTransparency = 1
+Container.CanvasSize = UDim2.new(0, 0, 1.5, 0)
+Container.ScrollBarThickness = 0
+local List = Instance.new("UIListLayout", Container)
+List.Padding = UDim.new(0, 8)
+List.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+-- TOGGLE SYSTEM
+local Toggles = {Stamina = false, Reach = false, Speed = false, ShadowWalk = false}
+
+local function CreateToggle(name, prop)
+    local btn = Instance.new("TextButton")
+    btn.Parent = Container
+    btn.Size = UDim2.new(0.9, 0, 0, 40)
+    btn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    btn.Text = name
+    btn.TextColor3 = Color3.fromRGB(200, 200, 200)
+    btn.Font = Enum.Font.GothamSemibold
+    Instance.new("UICorner", btn)
+
+    btn.MouseButton1Click:Connect(function()
+        Toggles[prop] = not Toggles[prop]
+        btn.BackgroundColor3 = Toggles[prop] and Color3.fromRGB(60, 0, 0) or Color3.fromRGB(25, 25, 25)
+        btn.TextColor3 = Toggles[prop] and Color3.fromRGB(255, 0, 0) or Color3.fromRGB(200, 200, 200)
+    end)
+end
+
+CreateToggle("🔥 Infinite Stamina", "Stamina")
+CreateToggle("🥊 Long Reach", "Reach")
+CreateToggle("⚡ Walk Speed", "Speed")
+CreateToggle("👥 Shadow Walk (Back-TP)", "ShadowWalk")
+
+-- 2. LOGIC ENGINE
+RS.Heartbeat:Connect(function()
+    local Char = LP.Character
+    if not Char or not Char:FindFirstChild("HumanoidRootPart") then return end
+
+    if Toggles.Stamina then LP:SetAttribute("Stamina", 100) end
+    if Toggles.Speed then Char.Humanoid.WalkSpeed = 22 else Char.Humanoid.WalkSpeed = 16 end
+
+    -- SHADOW WALK LOGIC
+    if Toggles.ShadowWalk then
+        local target = nil
+        local dist = 25 -- Distance para mag-activate
+        
+        for _, v in pairs(Players:GetPlayers()) do
+            if v ~= LP and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+                local d = (Char.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+                if d < dist then
+                    target = v.Character.HumanoidRootPart
+                end
+            end
+        end
+        
+        if target then
+            -- Teleport sa likod ng kalaban (3 studs distance)
+            Char.HumanoidRootPart.CFrame = target.CFrame * CFrame.new(0, 0, 3)
+        end
+    end
+end)
+
+-- Toggle Button 🐍
+local OpenBtn = Instance.new("TextButton")
+OpenBtn.Parent = ScreenGui
+OpenBtn.Size = UDim2.new(0, 50, 0, 50)
+OpenBtn.Position = UDim2.new(0.02, 0, 0.45, 0)
+OpenBtn.Text = "🐍"
+OpenBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+OpenBtn.Draggable = true
+Instance.new("UICorner", OpenBtn).CornerRadius = UDim.new(1, 0)
+OpenBtn.MouseButton1Click:Connect(function() MainFrame.Visible = not MainFrame.Visible end)
