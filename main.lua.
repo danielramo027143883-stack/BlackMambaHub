@@ -1,0 +1,64 @@
+local P = game:GetService("Players").LocalPlayer
+local T = {S1 = false, S2 = false} -- Status ng mga scripts
+
+local function Launch()
+    local G = Instance.new("ScreenGui", P.PlayerGui)
+    local F = Instance.new("Frame", G)
+    F.Size, F.Position, F.BackgroundColor3, F.Active, F.Draggable = UDim2.new(0,210,0,180), UDim2.new(0.5,-105,0.5,-90), Color3.new(0,0,0), true, true
+    Instance.new("UIStroke", F).Color = Color3.new(1, 0, 0)
+
+    local function TOG(n, p, url, pos)
+        local b = Instance.new("TextButton", F)
+        b.Size, b.Position, b.Text = UDim2.new(0.9,0,0,40), UDim2.new(0.05,0,0,pos), n.." [OFF]"
+        b.BackgroundColor3 = Color3.fromRGB(30,30,30)
+        b.TextColor3 = Color3.new(1,1,1)
+        Instance.new("UICorner", b)
+
+        b.MouseButton1Click:Connect(function()
+            T[p] = not T[p] -- Pagpapalit ng Status
+            if T[p] then
+                b.Text = n.." [ON]"
+                b.TextColor3 = Color3.new(0, 1, 0) -- Green pag ON
+                loadstring(game:HttpGet(url))() -- Load ang script
+            else
+                b.Text = n.." [OFF]"
+                b.TextColor3 = Color3.new(1, 0, 0) -- Red pag OFF
+                -- Note: Karamihan ng script ay hindi basta-basta ma-o-off unless i-reset ang character
+                print(n .. " Disabled. Some features may require reset.")
+            end
+        end)
+    end
+
+    local Title = Instance.new("TextLabel", F)
+    Title.Size, Title.Text, Title.TextColor3, Title.BackgroundTransparency = UDim2.new(1,0,0,40), "🐍 MAMBA TOGGLE", Color3.new(1,0,0), 1
+
+    TOG("Brainrot V1", "S1", "https://rawscripts.net/raw/Mine-a-Brainrot-script-83651", 45)
+    TOG("Auto Mine", "S2", "https://rawscripts.net/raw/Mine-a-Brainrot-AUTO-FAST-MINE-AND-DUPE-AND-MORE-KEYLESS-81648", 90)
+    
+    local C = Instance.new("TextButton", F)
+    C.Size, C.Position, C.Text = UDim2.new(0.9,0,0,30), UDim2.new(0.05,0,0,140), "CLOSE MENU"
+    C.MouseButton1Click:Connect(function() G:Destroy() end)
+end
+
+-- 🔐 KEY SYSTEM (GET KEY FIRST)
+local KG = Instance.new("ScreenGui", P.PlayerGui)
+local KF = Instance.new("Frame", KG)
+KF.Size, KF.Position, KF.BackgroundColor3 = UDim2.new(0,220,0,150), UDim2.new(0.5,-110,0.5,-75), Color3.new(0.1,0.1,0.1)
+
+local D = Instance.new("TextButton", KF)
+D.Size, D.Text, D.TextColor3, D.BackgroundTransparency = UDim2.new(1,0,0,40), "GET KEY: discord.gg/xfdkm787E", Color3.new(1,0,0), 1
+D.MouseButton1Click:Connect(function() setclipboard("https://discord.gg/xfdkm787E") D.Text = "COPIED!" end)
+
+local I = Instance.new("TextBox", KF)
+I.Size, I.Position, I.PlaceholderText = UDim2.new(0.9,0,0,40), UDim2.new(0.05,0,0,45), "Enter Key..."
+
+local S = Instance.new("TextButton", KF)
+S.Size, S.Position, S.Text, S.BackgroundColor3 = UDim2.new(0.9,0,0,40), UDim2.new(0.05,0,0,95), "VERIFY", Color3.new(0.5,0,0)
+
+S.MouseButton1Click:Connect(function()
+    if I.Text == ("MAMBA".."-".."777") or P.Name == "anonymous14383" then
+        KG:Destroy() Launch()
+    else 
+        I.Text = "" I.PlaceholderText = "WRONG KEY!"
+    end
+end)
