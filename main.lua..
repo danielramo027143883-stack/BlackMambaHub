@@ -1,161 +1,104 @@
--- [[ 🐍 BLACKMAMBA HUB V51 | FIX ENGINE ]]
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-
-local Window = Rayfield:CreateWindow({
-   Name = "🐍 BLACKMAMBA HUB  | ",
-   LoadingTitle = "Mamba Hub | Prime",
-   LoadingSubtitle = "by PRIMEBLACKMAMBA",
-   ConfigurationSaving = { Enabled = false }
-})
-
--- SERVICES
+--[[ 🐍 BLACKMAMBA PRO V58 | KEY SYSTEM ENGINE ]]
 local P = game:GetService("Players").LocalPlayer
-local Msg = game:GetService("ReplicatedStorage"):WaitForChild("Msg", 15)
-local RE, RF, TF = Msg.RemoteEvent, Msg.RemoteFunction, Msg.TalkFunc
 
--- T SETTINGS (Siguradong naka-sync sa toggles)
-getgenv().Mamba = {
-    SellEquipped = false,
-    Wheat = false,
-    Speed = 16,
-    Jump = false,
-    Noclip = false,
-    Harvest = false,
-    AutoEgg = false,
-    BuyPotion = false,
-    PotionID = 15000001
+-- [[ CONFIGURATION ]]
+local Settings = {
+    Key = "MAMBA-777",
+    Discord = "https://discord.gg/xfdkm787E",
+    Version = "V58"
 }
 
-local T = getgenv().Mamba
+-- [[ UI KEY SYSTEM ]]
+local function ShowKeySystem()
+    local G = Instance.new("ScreenGui", P.PlayerGui)
+    G.Name = "MambaKeySystem"
+    G.ResetOnSpawn = false
+    
+    local M = Instance.new("Frame", G)
+    M.Size = UDim2.new(0, 320, 0, 180)
+    M.Position = UDim2.new(0.5, -160, 0.5, -90)
+    M.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    M.BorderSizePixel = 0
+    M.Active = true
+    M.Draggable = true
+    Instance.new("UICorner", M)
+    
+    -- STROKE/BORDER
+    local Stroke = Instance.new("UIStroke", M)
+    Stroke.Color = Color3.fromRGB(200, 0, 0)
+    Stroke.Thickness = 2
 
--- [[ TABS ]]
-local FarmTab = Window:CreateTab("Auto Farm", nil)
-local PlayerTab = Window:CreateTab("Player Hacks", nil)
+    local T = Instance.new("TextLabel", M)
+    T.Size = UDim2.new(1, 0, 0, 45)
+    T.Text = "🐍 BLACKMAMBA HUB | " .. Settings.Version
+    T.TextColor3 = Color3.new(1, 1, 1)
+    T.BackgroundTransparency = 1
+    T.Font = Enum.Font.SourceSansBold
+    T.TextSize = 18
+    
+    local I = Instance.new("TextBox", M)
+    I.Size = UDim2.new(0.85, 0, 0, 35)
+    I.Position = UDim2.new(0.075, 0, 0.35, 0)
+    I.PlaceholderText = "Paste Key Here..."
+    I.Text = ""
+    I.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    I.TextColor3 = Color3.new(1, 1, 1)
+    Instance.new("UICorner", I)
+    
+    -- CHECK KEY BUTTON
+    local B = Instance.new("TextButton", M)
+    B.Size = UDim2.new(0.4, 0, 0, 35)
+    B.Position = UDim2.new(0.075, 0, 0.65, 0)
+    B.Text = "Verify Key"
+    B.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
+    B.TextColor3 = Color3.new(1, 1, 1)
+    B.Font = Enum.Font.SourceSansBold
+    Instance.new("UICorner", B)
+    
+    -- GET KEY BUTTON (DISCORD)
+    local D = Instance.new("TextButton", M)
+    D.Size = UDim2.new(0.4, 0, 0, 35)
+    D.Position = UDim2.new(0.525, 0, 0.65, 0)
+    D.Text = "Get Key in Discord"
+    D.BackgroundColor3 = Color3.fromRGB(88, 101, 242) -- Discord Blurple Color
+    D.TextColor3 = Color3.new(1, 1, 1)
+    D.Font = Enum.Font.SourceSansBold
+    Instance.new("UICorner", D)
 
--- [[ FARMING TAB ]]
-FarmTab:CreateSection("Money & Selling")
+    -- [[ LOGIC ]]
+    
+    -- GET KEY / DISCORD ACTION
+    D.MouseButton1Click:Connect(function()
+        setclipboard(Settings.Discord)
+        D.Text = "Link Copied!"
+        task.wait(2)
+        D.Text = "Get Key in Discord"
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Mamba Hub",
+            Text = "Discord link copied to clipboard! Paste it in your browser.",
+            Duration = 5
+        })
+    end)
 
-FarmTab:CreateToggle({
-   Name = "Auto Sell (Equipped Only)",
-   CurrentValue = false,
-   Callback = function(Value) T.SellEquipped = Value end,
-})
-
-FarmTab:CreateToggle({
-   Name = "Auto Collect Products",
-   CurrentValue = false,
-   Callback = function(Value) T.Wheat = Value end,
-})
-
-FarmTab:CreateSection("Harvesting & Eggs")
-
-FarmTab:CreateToggle({
-   Name = "Auto Harvest (Scan All)",
-   CurrentValue = false,
-   Callback = function(Value) T.Harvest = Value end,
-})
-
-FarmTab:CreateToggle({
-   Name = "Auto Place Eggs",
-   CurrentValue = false,
-   Callback = function(Value) T.AutoEgg = Value end,
-})
-
-FarmTab:CreateSection("Potion Shop")
-
-FarmTab:CreateDropdown({
-   Name = "Select Potion",
-   Options = {"Small Potion", "Medium Potion", "Large Potion"},
-   CurrentOption = "Small Potion",
-   Callback = function(Option)
-      if Option == "Small Potion" then T.PotionID = 15000001
-      elseif Option == "Medium Potion" then T.PotionID = 15000002
-      elseif Option == "Large Potion" then T.PotionID = 15000003 end
-   end,
-})
-
-FarmTab:CreateToggle({
-   Name = "Auto Buy Potion",
-   CurrentValue = false,
-   Callback = function(Value) T.BuyPotion = Value end,
-})
-
--- [[ PLAYER TAB ]]
-PlayerTab:CreateSlider({
-   Name = "WalkSpeed",
-   Range = {16, 300},
-   Increment = 1,
-   CurrentValue = 16,
-   Callback = function(Value) T.Speed = Value end,
-})
-
-PlayerTab:CreateToggle({
-   Name = "Noclip",
-   CurrentValue = false,
-   Callback = function(Value) T.Noclip = Value end,
-})
-
--- [[ ⚙️ REAL ENGINE - NO MORE VISUAL BUG ]]
-task.spawn(function()
-    while task.wait(0.7) do
-        pcall(function()
-            -- 1. HARVEST (All coordinates and levels)
-            if T.Harvest then
-                for x = 1, 5 do 
-                    for y = 1, 5 do 
-                        for lvl = 1, 5 do -- Mas safe na range para hindi mag-lag
-                            RF:InvokeServer("\230\148\182\232\142\183\230\176\180\230\158\156", {x, y, lvl})
-                        end
-                    end 
-                end
-            end
-
-            -- 2. SELL EQUIPPED
-            if T.SellEquipped then
-                for _, v in pairs(P.Character:GetChildren()) do
-                    if v:IsA("Model") and tonumber(v.Name) then
-                        RF:InvokeServer("\230\163\128\230\159\165Tool\229\174\140\230\149\180\230\128\167", 240)
-                        RE:FireServer("\232\167\166\229\143\145\229\175\185\232\175\157", 1010101)
-                        TF:InvokeServer("\229\141\150\230\142\137\230\139\191\231\157\128\231\154\132\229\174\157\231\137\169", {tonumber(v.Name)})
-                        RF:InvokeServer("\230\148\190\231\189\174")
-                    end
-                end
-            end
-
-            -- 3. EGG & POTION
-            if T.AutoEgg then
-                local hrp = P.Character:FindFirstChild("HumanoidRootPart")
-                if hrp then RF:InvokeServer("\230\148\190\231\189\174\232\155\139", hrp.CFrame * CFrame.new(0, -1, -8)) end
-            end
-            
-            if T.BuyPotion then
-                RF:InvokeServer("\232\180\173\228\185\176\233\173\148\230\179\149\232\141\175\230\176\180", {T.PotionID, 1})
-            end
-
-            -- 4. WHEAT COLLECT
-            if T.Wheat then
-                for _, v in pairs(workspace:GetDescendants()) do
-                    if v:IsA("Model") and tonumber(v.Name) then
-                        RE:FireServer("\233\162\134\229\143\150\229\138\168\231\137\169\232\181\154\231\154\132\233\146\177", tonumber(v.Name))
-                    end
-                end
-            end
-        end)
-    end
-end)
-
--- PLAYER LOOP (Noclip & Speed)
-game:GetService("RunService").Stepped:Connect(function()
-    pcall(function()
-        if P.Character and P.Character:FindFirstChild("Humanoid") then
-            P.Character.Humanoid.WalkSpeed = T.Speed
-            if T.Noclip then
-                for _, v in pairs(P.Character:GetDescendants()) do
-                    if v:IsA("BasePart") then v.CanCollide = false end
-                end
-            end
+    -- VERIFY ACTION
+    B.MouseButton1Click:Connect(function()
+        if I.Text == Settings.Key then
+            B.Text = "SUCCESS!"
+            B.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+            task.wait(1)
+            G:Destroy()
+            -- EXECUTE MAIN SCRIPT FROM GITHUB
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/danielramo027143883-stack/BlackMambaHub/refs/heads/main/main.lua.."))()
+        else
+            I.Text = ""
+            I.PlaceholderText = "INVALID KEY!"
+            I.PlaceholderColor3 = Color3.new(1, 0, 0)
+            task.wait(2)
+            I.PlaceholderText = "Paste Key Here..."
+            I.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
         end
     end)
-end)
+end
 
-Rayfield:Notify({Title = "ANG CUTE NI SAVERON😜", Content = "Pero mas cute si Alpuerto😝!", Duration = 5})
+-- START LOADER
+ShowKeySystem()
