@@ -1,0 +1,40 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "Escape Tsunami | Key System",
+   LoadingTitle = "Checking Key...",
+   LoadingSubtitle = "by Gemini",
+   ConfigurationSaving = {
+      Enabled = false
+   },
+   KeySystem = true, -- Eto ang mag-a-activate ng key system
+   KeySettings = {
+      Title = "Discord Key System",
+      Subtitle = "Join Discord to get the key",
+      Note = "Link: discord.gg/xfdkm787E",
+      FileName = "TsunamiKey",
+      SaveKey = true, -- Para hindi na sila hingan ng key ulit pag-restart
+      GrabKeyFromSite = false, -- Manual key muna tayo
+      Key = {"FREEKEY_2026"} -- PALITAN MO ITO NG GUSTO MONG KEY
+   }
+})
+
+-- BUTTON PARA MA-COPY ANG DISCORD LINK SA KEY UI
+Rayfield:Notify({
+    Title = "Join Discord for Key",
+    Content = "Link copied: discord.gg/xfdkm787E",
+    Duration = 10
+})
+setclipboard("https://discord.gg/xfdkm787E")
+
+-- PAG TAMA ANG KEY, DITO MAG-E-EXECUTE YUNG SCRIPT MO
+local MainTab = Window:CreateTab("Script Loaded", 4483362458)
+
+Rayfield:Notify({
+    Title = "Access Granted",
+    Content = "Loading your original script...",
+    Duration = 5
+})
+
+-- EXECUTE THE MAIN SCRIPT MO
+loadstring(game:HttpGet("https://gist.githubusercontent.com/Caarl-1/88091cc81a14fd1edee0a37079bef82e/raw/6299eeb3a12dc49f71be3c35a5662d4eeaa0a772/gistfile1.txt"))()
