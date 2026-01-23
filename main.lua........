@@ -1,0 +1,176 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "🐍 BlackMAMBA HUB | Castle Defender",
+    LoadingTitle = "Mamba Mentality Loading...",
+    ConfigurationSaving = {Enabled = false},
+    Theme = "Green", 
+    KeySystem = true,
+    KeySettings = {
+        Title = "Mamba Hub | Key System",
+        Subtitle = "Get key in Discord", -- Binago na ang subtitle dito
+        Note = "Discord: discord.gg/HDhES2V6",
+        FileName = "MambaKey",
+        SaveKey = true,
+        GrabKeyFromSite = false,
+        Key = {"MAMBA24"}
+    }
+})
+
+-- [[ TABS ]] --
+local HomeTab = Window:CreateTab("🏠 Home", 4483362458)
+local PlayerTab = Window:CreateTab("⚡ Player", 4483362458)
+local ShopTab = Window:CreateTab("Shop & Merchant", 4483362458)
+
+-- [[ REMOTES ]] --
+local Remotes = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Remotes")
+local PurchaseRemote = Remotes:WaitForChild("Purchase")
+local MerchantRemote = Remotes:WaitForChild("MerchantPurchaseCash")
+local UpgradeRemote = Remotes:WaitForChild("UpgradeStore_Buy")
+local ClaimRemote = Remotes:WaitForChild("Claim")
+local MineRemote = Remotes:WaitForChild("Mine")
+
+-- [[ PLAYER VARIABLES ]] --
+local lp = game.Players.LocalPlayer
+local infJump = false
+local noclip = false
+
+-- [[ PLAYER TAB FEATURES ]] --
+PlayerTab:CreateSection("🏃 Character Movement")
+
+PlayerTab:CreateSlider({
+   Name = "WalkSpeed",
+   Range = {16, 300},
+   Increment = 1,
+   Suffix = "Speed",
+   CurrentValue = 16,
+   Callback = function(Value)
+      if lp.Character and lp.Character:FindFirstChild("Humanoid") then
+         lp.Character.Humanoid.WalkSpeed = Value
+      end
+   end,
+})
+
+PlayerTab:CreateSlider({
+   Name = "JumpPower",
+   Range = {50, 500},
+   Increment = 1,
+   Suffix = "Power",
+   CurrentValue = 50,
+   Callback = function(Value)
+      if lp.Character and lp.Character:FindFirstChild("Humanoid") then
+         lp.Character.Humanoid.UseJumpPower = true
+         lp.Character.Humanoid.JumpPower = Value
+      end
+   end,
+})
+
+PlayerTab:CreateToggle({
+   Name = "Infinite Jump",
+   CurrentValue = false,
+   Callback = function(Value)
+      infJump = Value
+      game:GetService("UserInputService").JumpRequest:Connect(function()
+         if infJump and lp.Character and lp.Character:FindFirstChildOfClass("Humanoid") then
+            lp.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+         end
+      end)
+   end,
+})
+
+PlayerTab:CreateSection("👻 Cheats")
+
+PlayerTab:CreateToggle({
+   Name = "Noclip",
+   CurrentValue = false,
+   Callback = function(Value)
+      noclip = Value
+      game:GetService("RunService").Stepped:Connect(function()
+         if noclip and lp.Character then
+            for _, v in pairs(lp.Character:GetDescendants()) do
+               if v:IsA("BasePart") then v.CanCollide = false end
+            end
+         end
+      end)
+   end,
+})
+
+-- [[ HOME TAB ]] --
+HomeTab:CreateSection("🔗 Community")
+HomeTab:CreateButton({
+   Name = "Copy Discord Link",
+   Callback = function()
+      setclipboard("https://discord.gg/HDhES2V6")
+      Rayfield:Notify({Title = "Mamba Hub", Content = "Link Copied!"})
+   end,
+})
+
+-- [[ SHOP TAB ]] --
+ShopTab:CreateSection("🎁 Rewards & Auto-Mine")
+ShopTab:CreateButton({
+   Name = "Claim All Rewards",
+   Callback = function()
+      -- Original Reward Logic
+      ClaimRemote:InvokeServer({type = "playtimeAll"})
+      ClaimRemote:InvokeServer({type = "waveAll", includePremium = false})
+      
+      -- Group Reward Logic
+      local groupArgs = {{type = "group"}}
+      ClaimRemote:InvokeServer(unpack(groupArgs))
+      
+      Rayfield:Notify({Title = "Mamba Hub", Content = "All Rewards Claimed!"})
+   end,
+})
+
+local mining = false
+ShopTab:CreateToggle({
+   Name = "Auto-Mine Resources",
+   CurrentValue = false,
+   Callback = function(Value)
+      mining = Value
+      if mining then
+         task.spawn(function()
+            while mining do
+               MineRemote:FireServer()
+               task.wait(0.2)
+            end
+         end)
+      end
+   end,
+})
+
+ShopTab:CreateSection("🏰 Upgrades & Shop")
+ShopTab:CreateDropdown({
+   Name = "Castle Upgrades",
+   Options = {"None", "FlagRegen", "FlagHealth", "FlagDistance", "MaxUnits"},
+   CurrentOption = {"None"},
+   Callback = function(Option) if Option[1] ~= "None" then UpgradeRemote:InvokeServer(Option[1]) end end,
+})
+
+ShopTab:CreateDropdown({
+   Name = "Merchant Shop",
+   Options = {"None", "SorcererLv1", "MagicArcherLv1", "ArcaneCannonLv1"},
+   CurrentOption = {"None"},
+   Callback = function(Option) if Option[1] ~= "None" then MerchantRemote:InvokeServer(Option[1]) end end,
+})
+
+ShopTab:CreateDropdown({
+   Name = "Basic Units",
+   Options = {"None", "ArcherLv1", "CrossbowLv1", "CannonLv1", "BallistaLv1", "BombardLv1"},
+   CurrentOption = {"None"},
+   Callback = function(Option) if Option[1] ~= "None" then PurchaseRemote:FireServer(Option[1], 1) end end,
+})
+
+ShopTab:CreateDropdown({
+   Name = "Structures & Walls",
+   Options = {"None", "WoodWall", "StoneWall", "BasaltWall", "CastleTop", "BasaltTop", "IronGate", "BannerWall"},
+   CurrentOption = {"None"},
+   Callback = function(Option) if Option[1] ~= "None" then PurchaseRemote:FireServer(Option[1], 1) end end,
+})
+
+ShopTab:CreateDropdown({
+   Name = "Decorations",
+   Options = {"None", "Path", "WoodFloor", "StoneFloor", "Grass", "Lantern", "Ladder", "ClayWall", "Tree", "Rock", "Barrel", "Crate", "Painting_1"},
+   CurrentOption = {"None"},
+   Callback = function(Option) if Option[1] ~= "None" then PurchaseRemote:FireServer(Option[1], 1) end end,
+})
