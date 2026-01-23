@@ -1,0 +1,26 @@
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "MAMBA MENTALITY HUB",
+   LoadingTitle = "MAMBA LEGACY",
+   LoadingSubtitle = "by Prime",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "MambaConfigs",
+      FileName = "MainHub"
+   },
+   KeySystem = true,
+   KeySettings = {
+      Title = "MAMBA KEY SYSTEM",
+      Subtitle = "Get Key in Discord",
+      Note = "discord.gg/HDhES2V6",
+      FileName = "MambaKey",
+      SaveKey = true,
+      GrabKeyFromSite = false,
+      Key = {"MAMBA24"}
+   },
+   Theme = "Green"
+})
+
+local Tab = Window:CreateTab("Home", 4483362458)
+Tab:CreateLabel("Key System Working!")
