@@ -1,0 +1,57 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "🐍 MAMBA HUB | Plant Brainrot Simulator",
+   LoadingTitle = "Securing Connection...",
+   LoadingSubtitle = "by BlackMamba Mentality",
+   ConfigurationSaving = { Enabled = false }
+})
+
+local KeyTab = Window:CreateTab("Verification", 4483362458)
+
+-- Iyong Details
+local CorrectKey = "MAMBA24" 
+local DiscordLink = "https://discord.gg/HDhES2V6"
+
+KeyTab:CreateSection("Security Check")
+
+KeyTab:CreateInput({
+   Name = "Enter Secret Key",
+   PlaceholderText = "Input Key Here...", -- Inalis na ang visible key dito
+   RemoveTextAfterFocusLost = false,
+   Callback = function(Text)
+      if Text == CorrectKey then
+         Rayfield:Notify({
+            Title = "Access Granted!",
+            Content = "Loading Brainrot Script...",
+            Duration = 5,
+         })
+         
+         task.wait(1)
+         Rayfield:Destroy() -- Lilinisin ang UI para hindi mag-overlap
+         
+         -- Iyong Gist Link
+         loadstring(game:HttpGet("https://gist.githubusercontent.com/karlhub67/f4a2a7280c9ff2adefa7405400d026d4/raw/4866a683684c7d58671b2ad1f8dcd7adf846e2c6/gistfile1.txt"))()
+      else
+         Rayfield:Notify({
+            Title = "Invalid Key!",
+            Content = "Check Discord for the real key!",
+            Duration = 5,
+         })
+      end
+   end,
+})
+
+KeyTab:CreateSection("Access Link")
+
+KeyTab:CreateButton({
+   Name = "Copy Discord (Get Key)",
+   Callback = function()
+      setclipboard(DiscordLink) -- I-copy ang link mo sa clipboard
+      Rayfield:Notify({
+         Title = "Copied!",
+         Content = "Discord link copied. Go get that key!",
+         Duration = 3,
+      })
+   end,
+})
