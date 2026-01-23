@@ -1,7 +1,7 @@
-local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "🐍 MAMBA MENTALITY HUB | V107",
+   Name = "🐍 <b>MAMBA MENTALITY HUB</b> | V107",
    LoadingTitle = "🐍 LEGACY HUB",
    LoadingSubtitle = "by Mamba Mentality",
    ConfigurationSaving = {
@@ -9,19 +9,19 @@ local Window = Rayfield:CreateWindow({
       FolderName = "MambaConfigs",
       FileName = "MainHub"
    },
-   -- [[ RAYFIELD NATIVE KEY SYSTEM ]]
+   -- [[ RAYFIELD KEY SYSTEM START ]]
    KeySystem = true,
    KeySettings = {
-      Title = "MAMBA KEY SYSTEM",
-      Subtitle = "Get Key in Discord",
-      Note = "Join our Discord: https://discord.gg/HDhES2V6",
-      FileName = "MambaKey", -- Sine-save nito ang key para hindi type nang type
+      Title = "🐍 MAMBA KEY SYSTEM",
+      Subtitle = "Join Discord for the Key",
+      Note = ":https://discord.gg/HDhES2V6",
+      FileName = "MambaKeyData",
       SaveKey = true, 
       GrabKeyFromSite = false,
-      Key = {"MAMBA24"}, -- Ang iyong Key
+      Key = {"MAMBA24"}, -- Ito ang password
       Actions = {
             [1] = {
-                Text = "GET KEY IN DISCORD",
+                Text = "GET KEY (DISCORD)",
                 OnPress = function()
                     setclipboard("https://discord.gg/HDhES2V6")
                     Rayfield:Notify({
@@ -87,6 +87,26 @@ MainTab:CreateToggle({
    Callback = function(Value) _G.AutoUpgradeCar = Value end,
 })
 
+-- [[ WORLD TAB: GHOST MODE ]]
+WorldTab:CreateSection("ENVIRONMENT")
+
+WorldTab:CreateToggle({
+   Name = "Ghost Mode (Anti-Tsunami)",
+   CurrentValue = true,
+   Callback = function(Value) _G.GhostMode = Value end,
+})
+
+WorldTab:CreateButton({
+   Name = "Clean Tsunami Visuals",
+   Callback = function()
+       for _, v in pairs(workspace:GetDescendants()) do
+           if v.Name:lower():find("tsunami") or v.Name:lower():find("water") then
+               pcall(function() v:Destroy() end)
+           end
+       end
+   end,
+})
+
 -- [[ PLAYER TAB ]]
 PlayerTab:CreateSection("CHARACTER MODS")
 
@@ -109,6 +129,23 @@ PlayerTab:CreateToggle({
    Callback = function(Value) _G.InfJump = Value end,
 })
 
+-- [[ TELEPORT TAB ]]
+TeleportTab:CreateSection("WARP LOCATIONS")
+
+TeleportTab:CreateButton({
+   Name = "Warp: Main Base",
+   Callback = function()
+       game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(97.75, 3.36, -80.54)
+   end,
+})
+
+TeleportTab:CreateButton({
+   Name = "Warp: Cosmic Area",
+   Callback = function()
+       game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(2275.61, -2.74, -18.12)
+   end,
+})
+
 -- [[ 🚀 THE CORE ENGINE ]]
 task.spawn(function()
     while task.wait(0.6) do
@@ -116,15 +153,27 @@ task.spawn(function()
             if _G.AutoCollect then
                 for i = 1, 50 do Remotes.Collect:FireServer("Slot"..i) end
             end
+            
             if _G.AutoUpgradeBase then
                 task.spawn(function() Remotes.Base:InvokeServer() end)
             end
+            
             if _G.AutoBuySpeed then 
                 task.spawn(function() Remotes.Speed:InvokeServer() end) 
             end
+            
             if _G.AutoUpgradeCar then
                 for i = 1, 50 do 
                     task.spawn(function() Remotes.Car:InvokeServer("Slot"..i) end) 
+                end
+            end
+            
+            if _G.GhostMode then
+                for _, v in pairs(workspace:GetDescendants()) do
+                    if v.Name:lower():find("tsunami") or v.Name:lower():find("water") then
+                        if v:IsA("TouchTransmitter") then v:Destroy() end
+                        if v:IsA("BasePart") then v.CanTouch = false v.Transparency = 0.8 end
+                    end
                 end
             end
         end)
@@ -139,7 +188,7 @@ game:GetService("UserInputService").JumpRequest:Connect(function()
 end)
 
 Rayfield:Notify({
-   Title = "🐍 MAMBA HUB V107",
-   Content = "Key Accepted. Enjoy!",
+   Title = "🐍 MAMBA V107 ACTIVE",
+   Content = "Enjoy farming, Prime!",
    Duration = 5,
 })
