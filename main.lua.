@@ -47,7 +47,7 @@ KF.Size, KF.Position, KF.BackgroundColor3 = UDim2.new(0,220,0,150), UDim2.new(0.
 
 local D = Instance.new("TextButton", KF)
 D.Size, D.Text, D.TextColor3, D.BackgroundTransparency = UDim2.new(1,0,0,40), "GET KEY: discord.gg/xfdkm787E", Color3.new(1,0,0), 1
-D.MouseButton1Click:Connect(function() setclipboard("https://discord.gg/xfdkm787E") D.Text = "COPIED!" end)
+D.MouseButton1Click:Connect(function() setclipboard("https://discord.gg/HDhES2V6") D.Text = "COPIED!" end)
 
 local I = Instance.new("TextBox", KF)
 I.Size, I.Position, I.PlaceholderText = UDim2.new(0.9,0,0,40), UDim2.new(0.05,0,0,45), "Enter Key..."
@@ -56,7 +56,7 @@ local S = Instance.new("TextButton", KF)
 S.Size, S.Position, S.Text, S.BackgroundColor3 = UDim2.new(0.9,0,0,40), UDim2.new(0.05,0,0,95), "VERIFY", Color3.new(0.5,0,0)
 
 S.MouseButton1Click:Connect(function()
-    if I.Text == ("MAMBA".."-".."777") or P.Name == "anonymous14383" then
+    if I.Text == ("MAMBA24") or P.Name == "anonymous14383" then
         KG:Destroy() Launch()
     else 
         I.Text = "" I.PlaceholderText = "WRONG KEY!"
