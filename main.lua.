@@ -46,7 +46,7 @@ local KF = Instance.new("Frame", KG)
 KF.Size, KF.Position, KF.BackgroundColor3 = UDim2.new(0,220,0,150), UDim2.new(0.5,-110,0.5,-75), Color3.new(0.1,0.1,0.1)
 
 local D = Instance.new("TextButton", KF)
-D.Size, D.Text, D.TextColor3, D.BackgroundTransparency = UDim2.new(1,0,0,40), "GET KEY: discord.gg/xfdkm787E", Color3.new(1,0,0), 1
+D.Size, D.Text, D.TextColor3, D.BackgroundTransparency = UDim2.new(1,0,0,40), "GET KEY: https://discord.gg/HDhES2V6", Color3.new(1,0,0), 1
 D.MouseButton1Click:Connect(function() setclipboard("https://discord.gg/HDhES2V6") D.Text = "COPIED!" end)
 
 local I = Instance.new("TextBox", KF)
