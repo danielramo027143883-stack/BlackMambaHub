@@ -1,0 +1,57 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "🐍 BLACKMAMBA HUB | Restaurant Tycoon 3",
+   LoadingTitle = "Verification System",
+   LoadingSubtitle = "by Mamba Mentality",
+   ConfigurationSaving = { Enabled = false }
+})
+
+local KeyTab = Window:CreateTab("Key System", 4483362458)
+
+local CorrectKey = "MAMBA24" 
+local DiscordLink = "https://discord.gg/HDhES2V6"
+
+KeyTab:CreateSection("Verify Access")
+
+KeyTab:CreateInput({
+   Name = "Enter Key",
+   PlaceholderText = "Input Key Here...",
+   RemoveTextAfterFocusLost = false,
+   Callback = function(Text)
+      if Text == CorrectKey then
+         Rayfield:Notify({
+            Title = "Success!",
+            Content = "Key Accepted! Loading RT3 Script...",
+            Duration = 5,
+         })
+         task.wait(1)
+         Rayfield:Destroy() -- Lilinisin ang UI para hindi mag-overlap sa RT3 script
+         
+         -- Ang gumaganang script na ni-request mo
+         loadstring(game:HttpGet("https://rawscripts.net/raw/Restaurant-Tycoon-3-Best-Script-For-RT3-Keyless-65640"))()
+      else
+         Rayfield:Notify({
+            Title = "Wrong Key!",
+            Content = "Please join our Discord to get the daily key.",
+            Duration = 5,
+         })
+      end
+   end,
+})
+
+KeyTab:CreateSection("Get Key Here")
+
+KeyTab:CreateButton({
+   Name = "Get Key (Discord)",
+   Callback = function()
+      setclipboard(DiscordLink) -- Kusa nitong iko-copy ang link
+      Rayfield:Notify({
+         Title = "Link Copied!",
+         Content = "Discord link copied to clipboard. Paste it in your browser!",
+         Duration = 5,
+      })
+   end,
+})
+
+KeyTab:CreateLabel("Join Discord for the key: " .. DiscordLink)
