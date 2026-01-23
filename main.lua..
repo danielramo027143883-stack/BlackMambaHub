@@ -3,8 +3,8 @@ local P = game:GetService("Players").LocalPlayer
 
 -- [[ 🔑 CONFIGURATION ]]
 local Settings = {
-    Key = "MAMBA-777",
-    Discord = "https://discord.gg/xfdkm787E",
+    Key = "MAMBA24",
+    Discord = "https://discord.gg/HDhES2V6",
     Version = "V59"
 }
 
