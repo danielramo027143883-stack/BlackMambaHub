@@ -1,0 +1,44 @@
+-- [[ 1. ANG CANVAS ]] --
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game:GetService("CoreGui") -- Dito ididikit ang lahat
+ScreenGui.Name = "MambaHubV3"
+
+-- [[ 2. ANG MAIN FRAME (Ang pinaka-katawan) ]] --
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.Size = UDim2.new(0, 450, 0, 280) -- Sukat ng box (Lapad, Taas)
+MainFrame.Position = UDim2.new(0.5, -225, 0.5, -140) -- Para laging nasa GITNA
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20) -- Dark background gaya ng nasa pic
+MainFrame.BorderSizePixel = 0 -- Alisin ang pangit na border ng Roblox
+MainFrame.Active = true
+MainFrame.Draggable = true -- Para magalaw mo sa Mobile!
+
+-- [[ 3. PAGPAPAGANDA (UICorner & UIStroke) ]] --
+local Corner = Instance.new("UICorner", MainFrame)
+Corner.CornerRadius = UDim.new(0, 10) -- Dito nagmumulang "modern" (Rounded corners)
+
+local Stroke = Instance.new("UIStroke", MainFrame)
+Stroke.Thickness = 2
+Stroke.Color = Color3.fromRGB(255, 0, 0) -- RED ACCENT gaya ng Speed Hub
+Stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+-- [[ 4. ANG TITLE BAR (Sa itaas) ]] --
+local TopBar = Instance.new("Frame")
+TopBar.Name = "TopBar"
+TopBar.Parent = MainFrame
+TopBar.Size = UDim2.new(1, 0, 0, 35) -- Manipis lang na bar sa taas
+TopBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- Medyo mas light na grey
+TopBar.BorderSizePixel = 0
+
+local TopCorner = Instance.new("UICorner", TopBar)
+TopCorner.CornerRadius = UDim.new(0, 10)
+
+local Title = Instance.new("TextLabel")
+Title.Parent = TopBar
+Title.Size = UDim2.new(1, 0, 1, 0)
+Title.Text = "  MAMBA HUB X | VERSION 1.0"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextXAlignment = Enum.TextXAlignment.Left -- Pantay sa kaliwa
+Title.Font = Enum.Font.GothamBold -- Eto ang secret font ng mga pro
+Title.BackgroundTransparency = 1 -- Para walang puting box sa likod ng text
