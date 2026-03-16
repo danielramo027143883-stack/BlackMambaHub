@@ -1,0 +1,140 @@
+-- [[ MAMBA HUB | THE ULTIMATE TEMPLATE ]] --
+local ScreenGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
+ScreenGui.Name = "MambaHub_Final"
+ScreenGui.ResetOnSpawn = false
+
+local MY_LOGO_ID = "rbxassetid://135195218768176" 
+local CYAN = Color3.fromRGB(0, 255, 255)
+local PINK = Color3.fromRGB(255, 0, 255)
+local DARK_BG = Color3.fromRGB(15, 15, 15)
+local BG_TRANS = 0.3
+
+-- [[ 1. THE OPEN PILL (Naka-hide pag open ang menu) ]] --
+local OpenPill = Instance.new("TextButton", ScreenGui)
+OpenPill.Size = UDim2.new(0, 180, 0, 45)
+OpenPill.Position = UDim2.new(0.5, -90, 0.1, 0)
+OpenPill.BackgroundColor3 = DARK_BG
+OpenPill.BackgroundTransparency = BG_TRANS
+OpenPill.Text = ""
+OpenPill.AutoButtonColor = false
+OpenPill.ZIndex = 10
+Instance.new("UICorner", OpenPill).CornerRadius = UDim.new(1, 0)
+
+-- Neon Border para sa Pill
+local PillStroke = Instance.new("UIStroke", OpenPill)
+PillStroke.Thickness = 2.5
+PillStroke.Color = Color3.fromRGB(255, 255, 255)
+local PillGrad = Instance.new("UIGradient", PillStroke)
+PillGrad.Color = ColorSequence.new(CYAN, PINK)
+
+-- Logo sa loob ng Pill
+local PillLogo = Instance.new("ImageLabel", OpenPill)
+PillLogo.Size = UDim2.new(0, 30, 0, 30)
+PillLogo.Position = UDim2.new(0, 10, 0.5, -15)
+PillLogo.Image = MY_LOGO_ID
+PillLogo.BackgroundTransparency = 1
+PillLogo.ZIndex = 11
+
+-- Text sa loob ng Pill
+local PillText = Instance.new("TextLabel", OpenPill)
+PillText.Size = UDim2.new(1, -50, 1, 0)
+PillText.Position = UDim2.new(0, 45, 0, 0)
+PillText.Text = "OPEN MAMBA"
+PillText.TextColor3 = Color3.fromRGB(255, 255, 255)
+PillText.Font = Enum.Font.GothamBold
+PillText.TextSize = 13
+PillText.BackgroundTransparency = 1
+PillText.TextXAlignment = Enum.TextXAlignment.Left
+PillText.ZIndex = 11
+
+-- [[ 2. THE MAIN MENU ]] --
+local MainMenu = Instance.new("Frame", ScreenGui)
+MainMenu.Size = UDim2.new(0, 500, 0, 280)
+MainMenu.Position = UDim2.new(0.5, -250, 0.5, -140)
+MainMenu.BackgroundColor3 = DARK_BG
+MainMenu.BackgroundTransparency = BG_TRANS
+MainMenu.Visible = false
+MainMenu.ZIndex = 20
+Instance.new("UICorner", MainMenu).CornerRadius = UDim.new(0, 10)
+
+-- Neon Border para sa Main Menu
+local MenuStroke = Instance.new("UIStroke", MainMenu)
+MenuStroke.Thickness = 2.5
+MenuStroke.Color = Color3.fromRGB(255, 255, 255)
+local MenuGrad = Instance.new("UIGradient", MenuStroke)
+MenuGrad.Color = ColorSequence.new(CYAN, PINK)
+
+-- [[ 3. MAIN MENU HEADER (Yung may Logo Pill) ]] --
+local Header = Instance.new("Frame", MainMenu)
+Header.Size = UDim2.new(1, 0, 0, 60)
+Header.BackgroundTransparency = 1
+Header.ZIndex = 21
+
+-- Logo Pill sa loob ng Menu (Click to Close)
+local MenuLogoPill = Instance.new("ImageButton", Header)
+MenuLogoPill.Size = UDim2.new(0, 40, 0, 40)
+MenuLogoPill.Position = UDim2.new(0, 12, 0.5, -20)
+MenuLogoPill.BackgroundColor3 = DARK_BG
+MenuLogoPill.Image = MY_LOGO_ID
+MenuLogoPill.ZIndex = 25
+Instance.new("UICorner", MenuLogoPill).CornerRadius = UDim.new(1, 0)
+
+local LogoStroke = Instance.new("UIStroke", MenuLogoPill)
+LogoStroke.Thickness = 2
+LogoStroke.Color = CYAN -- Cyan glow para sa mini pill
+
+-- Title
+local Title = Instance.new("TextLabel", Header)
+Title.Size = UDim2.new(1, -70, 1, 0)
+Title.Position = UDim2.new(0, 60, 0, 0)
+Title.Text = "MAMBA HUB | PREMIUM"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 15
+Title.BackgroundTransparency = 1
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.ZIndex = 22
+
+-- [[ 4. SCROLLING AREA (Dito mo ilalagay yung buttons mo) ]] --
+local ScrollContainer = Instance.new("ScrollingFrame", MainMenu)
+ScrollContainer.Size = UDim2.new(1, -20, 1, -75)
+ScrollContainer.Position = UDim2.new(0, 10, 0, 65)
+ScrollContainer.BackgroundTransparency = 1
+ScrollContainer.BorderSizePixel = 0
+ScrollContainer.ScrollBarThickness = 2
+ScrollContainer.ScrollBarImageColor3 = CYAN
+ScrollContainer.ZIndex = 22
+
+local UIList = Instance.new("UIListLayout", ScrollContainer)
+UIList.Padding = UDim.new(0, 8)
+UIList.SortOrder = Enum.SortOrder.LayoutOrder
+
+-- [[ 5. LOGIC (Toggle & Drag) ]] --
+OpenPill.MouseButton1Click:Connect(function()
+	OpenPill.Visible = false
+	MainMenu.Visible = true
+end)
+
+MenuLogoPill.MouseButton1Click:Connect(function()
+	MainMenu.Visible = false
+	OpenPill.Visible = true
+end)
+
+-- Basic Dragging for Pill
+local UIS = game:GetService("UserInputService")
+local drag, dStart, sPos
+OpenPill.InputBegan:Connect(function(i)
+	if i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch then
+		drag = true dStart = i.Position sPos = OpenPill.Position
+	end
+end)
+UIS.InputChanged:Connect(function(i)
+	if drag and (i.UserInputType == Enum.UserInputType.MouseMovement or i.UserInputType == Enum.UserInputType.Touch) then
+		local delta = i.Position - dStart
+		OpenPill.Position = UDim2.new(sPos.X.Scale, sPos.X.Offset + delta.X, sPos.Y.Scale, sPos.Y.Offset + delta.Y)
+	end
+end)
+UIS.InputEnded:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch then drag = false end end)
+
+print("Mamba Hub Loaded Successfully!")
+
