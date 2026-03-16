@@ -57,18 +57,6 @@ MainMenu.Visible = false
 MainMenu.ZIndex = 20
 Instance.new("UICorner", MainMenu).CornerRadius = UDim.new(0, 10)
 
-
--- [[ MAMBA LOGO INJECTION ]] --
-local MainLogo = Instance.new("ImageLabel")
-MainLogo.Name = "MambaLogo"
-MainLogo.Parent = MainMenu -- Palitan mo itong 'MainMenu' kung ano man ang variable name ng main frame mo
-MainLogo.Size = UDim2.new(0, 60, 0, 60) -- Sukat ng logo
-MainLogo.Position = UDim2.new(0, 10, 0, 10) -- Pwesto (Upper Left)
-MainLogo.BackgroundTransparency = 1
-MainLogo.Image = "rbxassetid://91223450678345"
-MainLogo.ZIndex = 100 -- Para laging nasa ibabaw
-
-
 -- Neon Border para sa Main Menu
 local MenuStroke = Instance.new("UIStroke", MainMenu)
 MenuStroke.Thickness = 2.5
