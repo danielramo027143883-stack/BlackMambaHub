@@ -1,26 +1,139 @@
-local P,RS,T=game:GetService("Players").LocalPlayer,game:GetService("RunService"),{Stamina=false,Reach=false,AntiKb=false,Speed=false,MaxPower=false}
-local MT,O=getrawmetatable(game),nil setreadonly(MT,false)O=MT.__namecall
-MT.__namecall=newcclosure(function(s,...) local m,a=getnamecallmethod(),{...}
-if m=="FireServer"and s.Name=="Damage5Event"and T.MaxPower then 
-a[7]=2 -- Extreme Power (Subukan ang 2 para sa mas mabilis na KO)
-return O(s,unpack(a))end return O(s,...)end)setreadonly(MT,true)
-local function Launch() local G=Instance.new("ScreenGui",P.PlayerGui)G.ResetOnSpawn=false
-local M=Instance.new("Frame",G)M.Size,M.Position,M.BackgroundColor3=UDim2.new(0,240,0,380),UDim2.new(0.5,-120,0.5,-190),Color3.fromRGB(15,15,15)
-Instance.new("UICorner",M)local S=Instance.new("UIStroke",M)S.Color,S.Thickness=Color3.fromRGB(255,0,0),2
-local L=Instance.new("TextLabel",M)L.Size,L.Text,L.BackgroundTransparency=UDim2.new(1,0,0,80),"🐍\nBLACKMAMBA",1
-L.TextColor3,L.TextSize,L.Font=Color3.new(1,0,0),26,Enum.Font.GothamBold L.LineHeight=0.8
-local C=Instance.new("ScrollingFrame",M)C.Size,C.Position,C.BackgroundTransparency,C.CanvasSize=UDim2.new(1,0,1,-100),UDim2.new(0,0,0,95),1,UDim2.new(0,0,1.3,0)
-Instance.new("UIListLayout",C).HorizontalAlignment=Enum.HorizontalAlignment.Center
-local function BTN(n,p) local b=Instance.new("TextButton",C)b.Size,b.Text,b.BackgroundColor3=UDim2.new(0.9,0,0,40),n,Color3.fromRGB(25,25,25)
-b.TextColor3,b.Font,b.TextSize=Color3.fromRGB(200,200,200),Enum.Font.GothamSemibold,13 Instance.new("UICorner",b)
-b.MouseButton1Click:Connect(function()T[p]=not T[p]b.BackgroundColor3=T[p] and Color3.new(1,0,0) or Color3.fromRGB(25,25,25)b.TextColor3=T[p] and Color3.new(1,1,1) or Color3.fromRGB(200,200,200)end)end
-BTN("Infinite Stamina","Stamina")BTN("Long Reach (Pro)","Reach")BTN("Anti-Knockback","AntiKb")BTN("Extreme Power","MaxPower")BTN("Walk Speed","Speed")
-local B=Instance.new("TextButton",G)B.Size,B.Position,B.Text,B.Draggable=UDim2.new(0,50,0,50),UDim2.new(0,10,0.5,0),"🐍",true
-B.BackgroundColor3,B.TextColor3,B.TextSize=Color3.fromRGB(20,20,20),Color3.new(1,1,1),25 Instance.new("UICorner",B).CornerRadius=UDim.new(1,0)
-Instance.new("UIStroke",B).Color=Color3.new(1,0,0)B.MouseButton1Click:Connect(function()M.Visible=not M.Visible end)
-RS.Heartbeat:Connect(function() local c=P.Character if not c or not c:FindFirstChild("Humanoid")then return end
-if T.Stamina then P:SetAttribute("Stamina",100)c:SetAttribute("Stamina",100)end
-if T.Reach then for _,v in pairs(c:GetChildren())do if v:IsA("BasePart")and v.Name:find("Hand")then v.Size=Vector3.new(4,4,4)v.Transparency=0.8 v.CanCollide=false end end end
-if T.AntiKb then local h=c:FindFirstChild("HumanoidRootPart")if h and not h:FindFirstChildOfClass("BodyVelocity")then
-local bv=Instance.new("BodyVelocity",h)bv.Velocity,bv.MaxForce=Vector3.new(0,0,0),Vector3.new(1,0,1)*9e9 task.delay(0.1,function()bv:Destroy()end)end end
-c.Humanoid.WalkSpeed=T.Speed and 22 or 16 end)end Launch()
+-- [[ MAMBA HUB | THE ULTIMATE TEMPLATE ]] --
+local ScreenGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
+ScreenGui.Name = "MambaHub_Final"
+ScreenGui.ResetOnSpawn = false
+
+local MY_LOGO_ID = "rbxassetid://135195218768176" 
+local CYAN = Color3.fromRGB(0, 255, 255)
+local PINK = Color3.fromRGB(255, 0, 255)
+local DARK_BG = Color3.fromRGB(15, 15, 15)
+local BG_TRANS = 0.3
+
+-- [[ 1. THE OPEN PILL (Naka-hide pag open ang menu) ]] --
+local OpenPill = Instance.new("TextButton", ScreenGui)
+OpenPill.Size = UDim2.new(0, 180, 0, 45)
+OpenPill.Position = UDim2.new(0.5, -90, 0.1, 0)
+OpenPill.BackgroundColor3 = DARK_BG
+OpenPill.BackgroundTransparency = BG_TRANS
+OpenPill.Text = ""
+OpenPill.AutoButtonColor = false
+OpenPill.ZIndex = 10
+Instance.new("UICorner", OpenPill).CornerRadius = UDim.new(1, 0)
+
+-- Neon Border para sa Pill
+local PillStroke = Instance.new("UIStroke", OpenPill)
+PillStroke.Thickness = 2.5
+PillStroke.Color = Color3.fromRGB(255, 255, 255)
+local PillGrad = Instance.new("UIGradient", PillStroke)
+PillGrad.Color = ColorSequence.new(CYAN, PINK)
+
+-- Logo sa loob ng Pill
+local PillLogo = Instance.new("ImageLabel", OpenPill)
+PillLogo.Size = UDim2.new(0, 30, 0, 30)
+PillLogo.Position = UDim2.new(0, 10, 0.5, -15)
+PillLogo.Image = MY_LOGO_ID
+PillLogo.BackgroundTransparency = 1
+PillLogo.ZIndex = 11
+
+-- Text sa loob ng Pill
+local PillText = Instance.new("TextLabel", OpenPill)
+PillText.Size = UDim2.new(1, -50, 1, 0)
+PillText.Position = UDim2.new(0, 45, 0, 0)
+PillText.Text = "OPEN MAMBA"
+PillText.TextColor3 = Color3.fromRGB(255, 255, 255)
+PillText.Font = Enum.Font.GothamBold
+PillText.TextSize = 13
+PillText.BackgroundTransparency = 1
+PillText.TextXAlignment = Enum.TextXAlignment.Left
+PillText.ZIndex = 11
+
+-- [[ 2. THE MAIN MENU ]] --
+local MainMenu = Instance.new("Frame", ScreenGui)
+MainMenu.Size = UDim2.new(0, 340, 0, 280)
+MainMenu.Position = UDim2.new(0.5, -170, 0.5, -140)
+MainMenu.BackgroundColor3 = DARK_BG
+MainMenu.BackgroundTransparency = BG_TRANS
+MainMenu.Visible = false
+MainMenu.ZIndex = 20
+Instance.new("UICorner", MainMenu).CornerRadius = UDim.new(0, 10)
+
+-- Neon Border para sa Main Menu
+local MenuStroke = Instance.new("UIStroke", MainMenu)
+MenuStroke.Thickness = 2.5
+MenuStroke.Color = Color3.fromRGB(255, 255, 255)
+local MenuGrad = Instance.new("UIGradient", MenuStroke)
+MenuGrad.Color = ColorSequence.new(CYAN, PINK)
+
+-- [[ 3. MAIN MENU HEADER (Yung may Logo Pill) ]] --
+local Header = Instance.new("Frame", MainMenu)
+Header.Size = UDim2.new(1, 0, 0, 60)
+Header.BackgroundTransparency = 1
+Header.ZIndex = 21
+
+-- Logo Pill sa loob ng Menu (Click to Close)
+local MenuLogoPill = Instance.new("ImageButton", Header)
+MenuLogoPill.Size = UDim2.new(0, 40, 0, 40)
+MenuLogoPill.Position = UDim2.new(0, 12, 0.5, -20)
+MenuLogoPill.BackgroundColor3 = DARK_BG
+MenuLogoPill.Image = MY_LOGO_ID
+MenuLogoPill.ZIndex = 25
+Instance.new("UICorner", MenuLogoPill).CornerRadius = UDim.new(1, 0)
+
+local LogoStroke = Instance.new("UIStroke", MenuLogoPill)
+LogoStroke.Thickness = 2
+LogoStroke.Color = CYAN -- Cyan glow para sa mini pill
+
+-- Title
+local Title = Instance.new("TextLabel", Header)
+Title.Size = UDim2.new(1, -70, 1, 0)
+Title.Position = UDim2.new(0, 60, 0, 0)
+Title.Text = "MAMBA HUB | PREMIUM"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 15
+Title.BackgroundTransparency = 1
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.ZIndex = 22
+
+-- [[ 4. SCROLLING AREA (Dito mo ilalagay yung buttons mo) ]] --
+local ScrollContainer = Instance.new("ScrollingFrame", MainMenu)
+ScrollContainer.Size = UDim2.new(1, -20, 1, -75)
+ScrollContainer.Position = UDim2.new(0, 10, 0, 65)
+ScrollContainer.BackgroundTransparency = 1
+ScrollContainer.BorderSizePixel = 0
+ScrollContainer.ScrollBarThickness = 2
+ScrollContainer.ScrollBarImageColor3 = CYAN
+ScrollContainer.ZIndex = 22
+
+local UIList = Instance.new("UIListLayout", ScrollContainer)
+UIList.Padding = UDim.new(0, 8)
+UIList.SortOrder = Enum.SortOrder.LayoutOrder
+
+-- [[ 5. LOGIC (Toggle & Drag) ]] --
+OpenPill.MouseButton1Click:Connect(function()
+	OpenPill.Visible = false
+	MainMenu.Visible = true
+end)
+
+MenuLogoPill.MouseButton1Click:Connect(function()
+	MainMenu.Visible = false
+	OpenPill.Visible = true
+end)
+
+-- Basic Dragging for Pill
+local UIS = game:GetService("UserInputService")
+local drag, dStart, sPos
+OpenPill.InputBegan:Connect(function(i)
+	if i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch then
+		drag = true dStart = i.Position sPos = OpenPill.Position
+	end
+end)
+UIS.InputChanged:Connect(function(i)
+	if drag and (i.UserInputType == Enum.UserInputType.MouseMovement or i.UserInputType == Enum.UserInputType.Touch) then
+		local delta = i.Position - dStart
+		OpenPill.Position = UDim2.new(sPos.X.Scale, sPos.X.Offset + delta.X, sPos.Y.Scale, sPos.Y.Offset + delta.Y)
+	end
+end)
+UIS.InputEnded:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch then drag = false end end)
+
+print("Mamba Hub Loaded Successfully!")
